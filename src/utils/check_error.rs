@@ -9,16 +9,16 @@ use windows::Win32::Foundation::{SetLastError, ERROR_SUCCESS};
 /// Useful when the return value doesn't reliably indicate failure.
 pub fn check_error<F, R>(mut f: F) -> windows::core::Result<R>
 where
-    F: FnMut() -> R,
+	F: FnMut() -> R,
 {
-    unsafe {
-        SetLastError(ERROR_SUCCESS);
-        let result = f();
-        let error = Error::from_win32();
-        if error == Error::empty() {
-            Ok(result)
-        } else {
-            Err(error)
-        }
-    }
+	unsafe {
+		SetLastError(ERROR_SUCCESS);
+		let result = f();
+		let error = Error::from_win32();
+		if error == Error::empty() {
+			Ok(result)
+		} else {
+			Err(error)
+		}
+	}
 }

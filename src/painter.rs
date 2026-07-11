@@ -396,21 +396,30 @@ fn draw_icons(
 
 		FillRect(hdc_scaled, &rect, bg_brush);
 
-		let selected_index = state.index as i32;
-		let selected_col = selected_index % SYS_ROW_LENGTH;
-		let selected_row = selected_index / SYS_ROW_LENGTH;
-		let selected_left = scaled_icon_outer_size * selected_col;
-		let selected_top = scaled_icon_outer_size * selected_row;
-		let selected_rgn = CreateRoundRectRgn(
-			selected_left,
-			selected_top,
-			selected_left + scaled_icon_outer_size,
-			selected_top + scaled_icon_outer_size,
-			scaled_hover_corner_radius,
-			scaled_hover_corner_radius,
-		);
-		let _ = FillRgn(hdc_scaled, selected_rgn, fg_brush);
-		let _ = DeleteObject(selected_rgn.into());
+		let mut highlighted_indices = vec![state.index];
+		if let Some(hover_index) = state.hover_index {
+			if hover_index != state.index {
+				highlighted_indices.push(hover_index);
+			}
+		}
+
+		for highlighted_index in highlighted_indices {
+			let highlighted_index = highlighted_index as i32;
+			let highlighted_col = highlighted_index % SYS_ROW_LENGTH;
+			let highlighted_row = highlighted_index / SYS_ROW_LENGTH;
+			let highlighted_left = scaled_icon_outer_size * highlighted_col;
+			let highlighted_top = scaled_icon_outer_size * highlighted_row;
+			let highlighted_rgn = CreateRoundRectRgn(
+				highlighted_left,
+				highlighted_top,
+				highlighted_left + scaled_icon_outer_size,
+				highlighted_top + scaled_icon_outer_size,
+				scaled_hover_corner_radius,
+				scaled_hover_corner_radius,
+			);
+			let _ = FillRgn(hdc_scaled, highlighted_rgn, fg_brush);
+			let _ = DeleteObject(highlighted_rgn.into());
+		}
 
 		for (i, (icon, _)) in state.apps.iter().enumerate() {
 			let i = i as i32;

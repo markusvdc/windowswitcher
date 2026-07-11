@@ -21,5 +21,5 @@ pub use windows_theme::*;
 pub use windows_version::*;
 
 pub fn to_wstring(value: &str) -> Vec<u16> {
-    value.encode_utf16().chain(Some(0)).collect::<Vec<u16>>()
+	value.encode_utf16().chain(Some(0)).collect::<Vec<u16>>()
 }

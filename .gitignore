@@ -1,3 +1,4 @@
 /target
 /.vscode
 *.log
+* text=auto eol=lf
