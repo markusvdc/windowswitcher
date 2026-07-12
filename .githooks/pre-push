@@ -1,0 +1,6 @@
+#!/bin/sh
+
+repository_root=$(git rev-parse --show-toplevel) || exit $?
+
+powershell.exe -NoProfile -ExecutionPolicy Bypass -File "$repository_root/tools/check.ps1"
+exit $?
